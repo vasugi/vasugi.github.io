@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analyzer — AI-Powered Job Match</title>
+<meta name="description" content="Paste a job description and your resume to get an instant AI-powered match score, gap analysis, and tailored recommendations.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f5f0;
+  --surface: #ffffff;
+  --ink: #1a1612;
+  --ink2: #4a4540;
+  --ink3: #9a9590;
+  --accent: #1a472a;
+  --accent2: #2d6a4f;
+  --accent-light: #d8f3dc;
+  --warn: #e76f51;
+  --warn-light: #fde8e0;
+  --gold: #f4a261;
+  --gold-light: #fef3e2;
+  --border: #e5e0d8;
+  --card: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--ink);
+  padding: 1.5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 800; letter-spacing: 0.05em;
+  color: #fff; text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.built-by {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.built-by a { color: var(--gold); text-decoration: none; }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--accent-light);
+  border: 1px solid rgba(26,71,42,0.2);
+  padding: 0.35rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800; line-height: 1.1;
+  color: var(--ink); margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+.hero h1 em { font-style: italic; color: var(--accent2); font-family: 'Lora', serif; font-weight: 400; }
+.hero p {
+  font-size: 1.05rem; color: var(--ink2);
+  max-width: 560px; margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+
+/* ── STEPS ── */
+.steps-strip {
+  display: flex; justify-content: center; gap: 0;
+  max-width: 600px; margin: 0 auto 3rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.step-item {
+  flex: 1; padding: 0.75rem 1rem; text-align: center;
+  border-right: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+}
+.step-item:last-child { border-right: none; }
+.step-num {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); display: block; margin-bottom: 0.2rem;
+}
+.step-label { font-size: 0.72rem; color: var(--ink2); }
+
+/* ── MAIN LAYOUT ── */
+.main {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 2rem 5rem;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* ── INPUT PANELS ── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column;
+}
+.panel-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg);
+}
+.panel-icon {
+  width: 32px; height: 32px;
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.panel-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem; font-weight: 700; color: var(--ink);
+}
+.panel-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.1em; color: var(--ink3);
+  text-transform: uppercase; margin-top: 0.1rem;
+}
+.panel-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+
+textarea {
+  width: 100%; flex: 1; min-height: 280px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem; color: var(--ink2);
+  line-height: 1.7; resize: vertical;
+  outline: none; transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(--accent2); background: #fff; }
+textarea::placeholder { color: var(--ink3); }
+
+.char-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); margin-top: 0.5rem; text-align: right;
+}
+
+/* ── ANALYZE BUTTON ── */
+.analyze-wrap {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1rem; padding: 0.5rem 0;
+}
+.analyze-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+  color: #fff; background: var(--ink);
+  border: none; padding: 1.1rem 3.5rem;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: background 0.2s, transform 0.15s;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.analyze-btn:hover { background: var(--accent); transform: translateY(-2px); }
+.analyze-btn:active { transform: translateY(0); }
+.analyze-btn:disabled { background: var(--ink3); cursor: not-allowed; transform: none; }
+.btn-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+.analyze-btn.loading .btn-spinner { display: block; }
+.analyze-btn.loading .btn-text { opacity: 0.7; }
+.analyze-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.1em; color: var(--ink3);
+  text-transform: uppercase;
+}
+
+/* ── RESULTS ── */
+#results {
+  grid-column: 1 / -1;
+  display: none;
+}
+#results.visible { display: block; }
+
+.results-header {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--ink); color: #fff;
+  margin-bottom: 1.5rem;
+}
+.results-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem; font-weight: 800; letter-spacing: 0.03em;
+}
+.results-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-top: 0.2rem;
+}
+
+/* ── SCORE RING ── */
+.score-section {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 2rem; align-items: center;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2rem; margin-bottom: 1.5rem;
+}
+.score-ring-wrap { position: relative; width: 140px; height: 140px; flex-shrink: 0; }
+.score-ring-wrap svg { transform: rotate(-90deg); }
+.score-ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+.score-ring-fill {
+  fill: none; stroke-width: 8; stroke-linecap: round;
+  stroke-dasharray: 339.3;
+  stroke-dashoffset: 339.3;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.score-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.4rem; font-weight: 800; line-height: 1;
+}
+.score-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink3); margin-top: 0.2rem;
+}
+.score-verdict {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;
+}
+.score-summary {
+  font-size: 0.95rem; color: var(--ink2); line-height: 1.7;
+}
+
+/* ── BREAKDOWN CARDS ── */
+.breakdown-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.breakdown-card {
+  background: var(--surface);
+  padding: 1.25rem;
+}
+.breakdown-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 0.5rem;
+}
+.breakdown-score {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem; font-weight: 700; line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.breakdown-bar {
+  height: 3px; background: var(--border); margin-bottom: 0.5rem;
+}
+.breakdown-bar-fill {
+  height: 100%; width: 0%;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.breakdown-note {
+  font-size: 0.78rem; color: var(--ink3); line-height: 1.5;
+}
+
+/* ── ANALYSIS SECTIONS ── */
+.analysis-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.analysis-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.analysis-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  margin-bottom: 1rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.analysis-list { list-style: none; }
+.analysis-list li {
+  font-size: 0.88rem; color: var(--ink2); line-height: 1.6;
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  position: relative;
+}
+.analysis-list li:last-child { border-bottom: none; }
+.analysis-list li::before {
+  position: absolute; left: 0; top: 0.55rem;
+  font-size: 0.75rem;
+}
+.list-green li::before { content: '✓'; color: var(--accent2); }
+.list-red li::before { content: '✗'; color: var(--warn); }
+.list-tip li::before { content: '→'; color: var(--gold); }
+
+/* ── KEYWORDS ── */
+.keywords-section {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 1.5rem; margin-bottom: 1.5rem;
+}
+.keywords-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  margin-bottom: 1rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.keywords-row {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;
+}
+.kw-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 0.5rem; display: block;
+}
+.keyword {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; padding: 0.3rem 0.75rem;
+  border: 1px solid; display: inline-block;
+}
+.kw-found { background: var(--accent-light); border-color: rgba(26,71,42,0.25); color: var(--accent); }
+.kw-missing { background: var(--warn-light); border-color: rgba(231,111,81,0.25); color: var(--warn); }
+
+/* ── REWRITE SECTION ── */
+.rewrite-section {
+  background: var(--gold-light); border: 1px solid rgba(244,162,97,0.3);
+  padding: 1.5rem;
+}
+.rewrite-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 700; color: var(--ink);
+  margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.rewrite-body {
+  font-size: 0.88rem; color: var(--ink2); line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+/* ── ERROR ── */
+.error-box {
+  background: var(--warn-light); border: 1px solid rgba(231,111,81,0.3);
+  padding: 1.25rem 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem; color: var(--warn);
+  grid-column: 1 / -1; display: none;
+}
+.error-box.visible { display: block; }
+
+/* ── COLOR HELPERS ── */
+.c-green { color: var(--accent2); }
+.c-amber { color: var(--gold); }
+.c-red   { color: var(--warn); }
+.bg-green { background: var(--accent2); }
+.bg-amber { background: var(--gold); }
+.bg-red   { background: var(--warn); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.5s ease forwards; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; padding: 2rem;
+  border-top: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.1em; color: var(--ink3);
+}
+footer a { color: var(--accent2); text-decoration: none; }
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; }
+  .analyze-wrap { grid-column: 1; }
+  #results { grid-column: 1; }
+  .breakdown-grid { grid-template-columns: 1fr 1fr; }
+  .analysis-grid { grid-template-columns: 1fr; }
+  header { padding: 1rem 1.5rem; }
+  .hero { padding: 3rem 1.5rem 2rem; }
+}
+@media (max-width: 600px) {
+  .breakdown-grid { grid-template-columns: 1fr; }
+  .score-section { grid-template-columns: 1fr; text-align: center; }
+  .score-ring-wrap { margin: 0 auto; }
+  .steps-strip { flex-direction: column; }
+  .step-item { border-right: none; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">Resume<span>AI</span></a>
+  <div class="built-by">Built by <a href="https://vasugi.github.io/vasugiandavar.github.io">Vasugi Andavar</a></div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">⚡ Powered by Claude AI</div>
+  <h1>Know Your <em>Real</em> Match Score</h1>
+  <p>Paste a job description and your resume. Get an instant AI-powered match score, keyword gap analysis, and tailored recommendations to land the interview.</p>
+  <div class="steps-strip">
+    <div class="step-item">
+      <span class="step-num">Step 01</span>
+      <div class="step-label">Paste Job Description</div>
+    </div>
+    <div class="step-item">
+      <span class="step-num">Step 02</span>
+      <div class="step-label">Paste Your Resume</div>
+    </div>
+    <div class="step-item">
+      <span class="step-num">Step 03</span>
+      <div class="step-label">Get AI Analysis</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- JOB DESCRIPTION -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">JD</div>
+      <div>
+        <div class="panel-title">Job Description</div>
+        <div class="panel-subtitle">Paste the full job posting</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <textarea id="job-desc" placeholder="Paste the complete job description here...
+
+Include:
+• Job title and company
+• Required qualifications
+• Responsibilities
+• Preferred skills
+• Tech stack requirements"></textarea>
+      <div class="char-count"><span id="jd-count">0</span> characters</div>
+    </div>
+  </div>
+
+  <!-- RESUME -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">CV</div>
+      <div>
+        <div class="panel-title">Your Resume</div>
+        <div class="panel-subtitle">Paste your resume text</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <textarea id="resume-text" placeholder="Paste your resume content here...
+
+Include:
+• Work experience with achievements
+• Skills and technologies
+• Education and certifications
+• Key projects and impact metrics"></textarea>
+      <div class="char-count"><span id="cv-count">0</span> characters</div>
+    </div>
+  </div>
+
+  <!-- ANALYZE BUTTON -->
+  <div class="analyze-wrap">
+    <button class="analyze-btn" id="analyze-btn" onclick="analyzeResume()">
+      <div class="btn-spinner"></div>
+      <span class="btn-text">Analyze My Resume</span>
+    </button>
+    <div class="analyze-note">Analysis takes 15–20 seconds · Powered by Claude AI</div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-box" id="error-box"></div>
+
+  <!-- RESULTS -->
+  <div id="results">
+
+    <div class="results-header">
+      <div>
+        <div class="results-title">Analysis Complete</div>
+        <div class="results-sub">AI-powered resume match report</div>
+      </div>
+    </div>
+
+    <!-- SCORE -->
+    <div class="score-section" id="score-section">
+      <div class="score-ring-wrap">
+        <svg width="140" height="140" viewBox="0 0 120 120">
+          <circle class="score-ring-bg" cx="60" cy="60" r="54"/>
+          <circle class="score-ring-fill" id="score-ring" cx="60" cy="60" r="54"/>
+        </svg>
+        <div class="score-center">
+          <div class="score-num" id="score-num">—</div>
+          <div class="score-label">Match Score</div>
+        </div>
+      </div>
+      <div>
+        <div class="score-verdict" id="score-verdict"></div>
+        <div class="score-summary" id="score-summary"></div>
+      </div>
+    </div>
+
+    <!-- BREAKDOWN -->
+    <div class="breakdown-grid" id="breakdown-grid">
+      <div class="breakdown-card">
+        <div class="breakdown-label">Skills Match</div>
+        <div class="breakdown-score" id="bd-skills">—</div>
+        <div class="breakdown-bar"><div class="breakdown-bar-fill" id="bd-skills-bar"></div></div>
+        <div class="breakdown-note" id="bd-skills-note"></div>
+      </div>
+      <div class="breakdown-card">
+        <div class="breakdown-label">Experience</div>
+        <div class="breakdown-score" id="bd-exp">—</div>
+        <div class="breakdown-bar"><div class="breakdown-bar-fill" id="bd-exp-bar"></div></div>
+        <div class="breakdown-note" id="bd-exp-note"></div>
+      </div>
+      <div class="breakdown-card">
+        <div class="breakdown-label">Keywords</div>
+        <div class="breakdown-score" id="bd-kw">—</div>
+        <div class="breakdown-bar"><div class="breakdown-bar-fill" id="bd-kw-bar"></div></div>
+        <div class="breakdown-note" id="bd-kw-note"></div>
+      </div>
+      <div class="breakdown-card">
+        <div class="breakdown-label">ATS Score</div>
+        <div class="breakdown-score" id="bd-ats">—</div>
+        <div class="breakdown-bar"><div class="breakdown-bar-fill" id="bd-ats-bar"></div></div>
+        <div class="breakdown-note" id="bd-ats-note"></div>
+      </div>
+    </div>
+
+    <!-- STRENGTHS & GAPS -->
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <div class="analysis-card-title">
+          <span style="color:var(--accent2)">✓</span> Your Strengths
+        </div>
+        <ul class="analysis-list list-green" id="strengths-list"></ul>
+      </div>
+      <div class="analysis-card">
+        <div class="analysis-card-title">
+          <span style="color:var(--warn)">✗</span> Gaps to Address
+        </div>
+        <ul class="analysis-list list-red" id="gaps-list"></ul>
+      </div>
+    </div>
+
+    <!-- KEYWORDS -->
+    <div class="keywords-section">
+      <div class="keywords-title">🔍 Keyword Analysis</div>
+      <span class="kw-label">Found in your resume</span>
+      <div class="keywords-row" id="kw-found"></div>
+      <span class="kw-label" style="margin-top:0.75rem;">Missing — add these</span>
+      <div class="keywords-row" id="kw-missing"></div>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="analysis-grid" style="margin-bottom:1.5rem;">
+      <div class="analysis-card">
+        <div class="analysis-card-title">
+          <span style="color:var(--gold)">→</span> Quick Wins (Do This Week)
+        </div>
+        <ul class="analysis-list list-tip" id="quick-wins"></ul>
+      </div>
+      <div class="analysis-card">
+        <div class="analysis-card-title">
+          <span style="color:var(--gold)">→</span> Resume Bullet Improvements
+        </div>
+        <ul class="analysis-list list-tip" id="bullet-tips"></ul>
+      </div>
+    </div>
+
+    <!-- REWRITE -->
+    <div class="rewrite-section">
+      <div class="rewrite-title">✨ AI-Suggested Summary Rewrite</div>
+      <div class="rewrite-body" id="rewrite-body"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Built by <a href="https://vasugi.github.io/vasugiandavar.github.io">Vasugi Andavar</a> · Engineering Manager & AI Transformation Leader · Powered by Claude AI
+</footer>
+
+<script>
+const jdEl = document.getElementById('job-desc');
+const cvEl = document.getElementById('resume-text');
+
+jdEl.addEventListener('input', () => {
+  document.getElementById('jd-count').textContent = jdEl.value.length.toLocaleString();
+});
+cvEl.addEventListener('input', () => {
+  document.getElementById('cv-count').textContent = cvEl.value.length.toLocaleString();
+});
+
+function getScoreColor(score) {
+  if (score >= 80) return 'var(--accent2)';
+  if (score >= 60) return 'var(--gold)';
+  return 'var(--warn)';
+}
+
+function getVerdict(score) {
+  if (score >= 85) return { text: '🎯 Strong Match', cls: 'c-green' };
+  if (score >= 70) return { text: '👍 Good Match', cls: 'c-green' };
+  if (score >= 55) return { text: '⚠️ Partial Match', cls: 'c-amber' };
+  return { text: '🔧 Needs Work', cls: 'c-red' };
+}
+
+function animateScore(score) {
+  const ring = document.getElementById('score-ring');
+  const numEl = document.getElementById('score-num');
+  const circumference = 339.3;
+  const color = getScoreColor(score);
+  ring.style.stroke = color;
+  ring.style.strokeDashoffset = circumference - (score / 100) * circumference;
+  numEl.style.color = color;
+  let current = 0;
+  const step = score / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, score);
+    numEl.textContent = Math.round(current) + '%';
+    if (current >= score) clearInterval(timer);
+  }, 16);
+}
+
+function animateBar(id, score) {
+  const el = document.getElementById(id);
+  const color = getScoreColor(score);
+  el.style.background = color;
+  setTimeout(() => { el.style.width = score + '%'; }, 100);
+}
+
+function renderList(id, items) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+}
+
+function renderKeywords(id, keywords, cls) {
+  const el = document.getElementById(id);
+  el.innerHTML = keywords.map(k => `<span class="keyword ${cls}">${k}</span>`).join('');
+}
+
+async function analyzeResume() {
+  const jd = jdEl.value.trim();
+  const cv = cvEl.value.trim();
+
+  if (!jd || jd.length < 50) {
+    showError('Please paste a job description (at least 50 characters).');
+    return;
+  }
+  if (!cv || cv.length < 100) {
+    showError('Please paste your resume content (at least 100 characters).');
+    return;
+  }
+
+  hideError();
+  const btn = document.getElementById('analyze-btn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.querySelector('.btn-text').textContent = 'Analyzing...';
+  document.getElementById('results').classList.remove('visible');
+
+  const prompt = `You are an expert resume analyst. Analyze the resume against the job description.
+
+CRITICAL: Respond with ONLY a raw JSON object. No markdown. No code fences. No explanation. No text before or after. Start your response with { and end with }.
+
+JOB DESCRIPTION:
+${jd}
+
+RESUME:
+${cv}
+
+JSON structure to return:
+{
+  "overall_score": <integer 0-100>,
+  "skills_score": <integer 0-100>,
+  "experience_score": <integer 0-100>,
+  "keywords_score": <integer 0-100>,
+  "ats_score": <integer 0-100>,
+  "skills_note": "<one sentence>",
+  "experience_note": "<one sentence>",
+  "keywords_note": "<one sentence>",
+  "ats_note": "<one sentence>",
+  "summary": "<2-3 sentence overall assessment>",
+  "strengths": ["<item>", "<item>", "<item>", "<item>", "<item>"],
+  "gaps": ["<item>", "<item>", "<item>", "<item>"],
+  "keywords_found": ["<word>", "<word>", "<word>", "<word>", "<word>", "<word>", "<word>", "<word>"],
+  "keywords_missing": ["<word>", "<word>", "<word>", "<word>", "<word>", "<word>"],
+  "quick_wins": ["<action>", "<action>", "<action>", "<action>"],
+  "bullet_tips": ["<tip>", "<tip>", "<tip>", "<tip>"],
+  "summary_rewrite": "<rewritten professional summary tailored to this job, 3-4 sentences>"
+}`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'API error ' + response.status);
+    }
+
+    const raw = data.content[0].text.trim();
+
+    // Robustly extract JSON — handle markdown fences, leading text, etc.
+    let jsonStr = raw;
+    const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fenceMatch) {
+      jsonStr = fenceMatch[1].trim();
+    } else {
+      // Find first { and last } 
+      const start = raw.indexOf('{');
+      const end = raw.lastIndexOf('}');
+      if (start !== -1 && end !== -1) {
+        jsonStr = raw.slice(start, end + 1);
+      }
+    }
+
+    let result;
+    try {
+      result = JSON.parse(jsonStr);
+    } catch (parseErr) {
+      console.error('Raw response:', raw);
+      throw new Error('Could not parse AI response. Raw output logged to console.');
+    }
+
+    renderResults(result);
+
+  } catch (err) {
+    showError('Analysis failed: ' + err.message + '. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.querySelector('.btn-text').textContent = 'Analyze My Resume';
+  }
+}
+
+function renderResults(r) {
+  // Score ring
+  animateScore(r.overall_score);
+
+  // Verdict
+  const v = getVerdict(r.overall_score);
+  const verdictEl = document.getElementById('score-verdict');
+  verdictEl.textContent = v.text;
+  verdictEl.className = 'score-verdict ' + v.cls;
+  document.getElementById('score-summary').textContent = r.summary;
+
+  // Breakdown
+  document.getElementById('bd-skills').textContent = r.skills_score + '%';
+  document.getElementById('bd-skills').style.color = getScoreColor(r.skills_score);
+  document.getElementById('bd-skills-note').textContent = r.skills_note;
+  animateBar('bd-skills-bar', r.skills_score);
+
+  document.getElementById('bd-exp').textContent = r.experience_score + '%';
+  document.getElementById('bd-exp').style.color = getScoreColor(r.experience_score);
+  document.getElementById('bd-exp-note').textContent = r.experience_note;
+  animateBar('bd-exp-bar', r.experience_score);
+
+  document.getElementById('bd-kw').textContent = r.keywords_score + '%';
+  document.getElementById('bd-kw').style.color = getScoreColor(r.keywords_score);
+  document.getElementById('bd-kw-note').textContent = r.keywords_note;
+  animateBar('bd-kw-bar', r.keywords_score);
+
+  document.getElementById('bd-ats').textContent = r.ats_score + '%';
+  document.getElementById('bd-ats').style.color = getScoreColor(r.ats_score);
+  document.getElementById('bd-ats-note').textContent = r.ats_note;
+  animateBar('bd-ats-bar', r.ats_score);
+
+  // Lists
+  renderList('strengths-list', r.strengths);
+  renderList('gaps-list', r.gaps);
+  renderList('quick-wins', r.quick_wins);
+  renderList('bullet-tips', r.bullet_tips);
+
+  // Keywords
+  renderKeywords('kw-found', r.keywords_found, 'kw-found');
+  renderKeywords('kw-missing', r.keywords_missing, 'kw-missing');
+
+  // Rewrite
+  document.getElementById('rewrite-body').textContent = r.summary_rewrite;
+
+  // Show results
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('visible', 'fade-in');
+  setTimeout(() => resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-box');
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('visible');
+}
+function hideError() {
+  document.getElementById('error-box').classList.remove('visible');
+}
+</script>
+</body>
+</html>
