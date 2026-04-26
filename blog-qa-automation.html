@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How We Cut Manual QA Work by 30% Using Claude AI | Vasugi Andavar</title>
+<meta name="description" content="A real story of how integrating Claude AI into our SDLC cut manual QA effort by 30% — and what I learned as an engineering leader along the way.">
+<meta name="author" content="Vasugi Andavar">
+<meta property="og:title" content="How We Cut Manual QA Work by 30% Using Claude AI">
+<meta property="og:description" content="A real story of AI-assisted test automation at enterprise scale. By Vasugi Andavar, Engineering Manager at Vanguard.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --ink: #1c1917;
+    --ink2: #44403c;
+    --ink3: #78716c;
+    --accent: #dc2626;
+    --accent-light: #fee2e2;
+    --gold: #d97706;
+    --gold-light: #fef3c7;
+    --border: #e7e5e4;
+    --code-bg: #1c1917;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Figtree', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-back {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink3); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-site {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--ink3); text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-site:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 760px; margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+  }
+
+  .post-meta {
+    display: flex; align-items: center; gap: 1rem;
+    flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+  }
+  .tag-ai { background: var(--accent-light); color: var(--accent); }
+  .tag-leadership { background: var(--gold-light); color: var(--gold); }
+  .meta-dot { color: var(--border); font-size: 1.2rem; }
+  .meta-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--ink3); letter-spacing: 0.05em;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 300; line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-subtitle {
+    font-size: 1.15rem; color: var(--ink2);
+    font-weight: 300; line-height: 1.7;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── AUTHOR CARD ── */
+  .author-card {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    margin-bottom: 3rem;
+  }
+  .author-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem; color: var(--accent); font-weight: 600;
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-weight: 500; font-size: 0.95rem; color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  .author-title {
+    font-size: 0.8rem; color: var(--ink3);
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+  }
+
+  /* ── ARTICLE ── */
+  article {
+    max-width: 760px; margin: 0 auto;
+    padding: 0 2rem 5rem;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2.5rem 0;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .divider-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem; font-weight: 400;
+    line-height: 1.3; color: var(--ink);
+    margin: 3rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin-bottom: 1.4rem; color: var(--ink2); }
+  p strong { color: var(--ink); font-weight: 500; }
+  p em { font-style: italic; color: var(--ink); font-family: 'Fraunces', serif; }
+
+  /* ── PULLQUOTE ── */
+  blockquote {
+    margin: 2.5rem 0;
+    padding: 1.5rem 2rem;
+    border-left: 4px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 4px 4px 0;
+  }
+  blockquote p {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem; font-weight: 300;
+    font-style: italic; line-height: 1.6;
+    color: var(--ink); margin: 0;
+  }
+  blockquote cite {
+    display: block; margin-top: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--ink3);
+    font-style: normal; letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── METRICS BAND ── */
+  .metrics {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2.5rem 0; border-radius: 4px; overflow: hidden;
+  }
+  .metric {
+    background: var(--surface); padding: 1.5rem 1.25rem; text-align: center;
+  }
+  .metric-val {
+    font-family: 'Fraunces', serif;
+    font-size: 2.25rem; font-weight: 400;
+    color: var(--accent); line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .metric-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; color: var(--ink3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* ── NUMBERED STEPS ── */
+  .steps { margin: 1.5rem 0 2rem; }
+  .step {
+    display: flex; gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem; font-weight: 300; color: var(--accent);
+    line-height: 1; flex-shrink: 0; width: 2rem; text-align: center;
+  }
+  .step-content {}
+  .step-title {
+    font-weight: 500; color: var(--ink); margin-bottom: 0.3rem;
+    font-size: 0.97rem;
+  }
+  .step-body { font-size: 0.92rem; color: var(--ink2); margin: 0; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--gold-light);
+    border: 1px solid #fcd34d;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .callout-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem; font-weight: 500;
+  }
+  .callout p { color: var(--ink2); margin: 0; font-size: 0.93rem; }
+
+  /* ── FOOTER ── */
+  .post-footer {
+    max-width: 760px; margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    border-top: 1px solid var(--border);
+  }
+  .share-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 1rem;
+  }
+  .hashtags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .hashtag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--accent);
+    padding: 0.3rem 0.75rem; border: 1px solid var(--accent-light);
+    border-radius: 2px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .hashtag:hover { background: var(--accent-light); }
+
+  .author-bio {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    padding: 1.5rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  .bio-avatar {
+    width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-size: 1.2rem;
+    color: var(--accent); font-weight: 600;
+  }
+  .bio-name {
+    font-weight: 500; font-size: 1rem; margin-bottom: 0.2rem;
+  }
+  .bio-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .bio-text { font-size: 0.88rem; color: var(--ink3); line-height: 1.6; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  /* ── READING PROGRESS ── */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--accent); width: 0%; z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .metrics { grid-template-columns: 1fr; }
+    .author-bio { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <a href="index.html" class="nav-back">← Back to profile</a>
+  <a href="index.html" class="nav-site">vasugiandavar.github.io</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="post-meta">
+    <span class="tag tag-ai">AI Engineering</span>
+    <span class="tag tag-leadership">Engineering Leadership</span>
+    <span class="meta-dot">·</span>
+    <span class="meta-text">4 min read</span>
+    <span class="meta-dot">·</span>
+    <span class="meta-text">2025</span>
+  </div>
+
+  <h1>How We Cut Manual QA Work by <em>30%</em> Using Claude AI</h1>
+
+  <p class="hero-subtitle">
+    A real story of AI-assisted test automation at enterprise scale — what worked, what surprised me, and what I'd do differently.
+  </p>
+
+  <div class="author-card">
+    <div class="author-avatar">VA</div>
+    <div>
+      <div class="author-name">Vasugi Andavar</div>
+      <div class="author-title">Engineering Manager · AI & Cloud Transformation · Vanguard</div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<article>
+
+  <p>19 years in tech and I'm still learning. That's not false modesty — it's the most honest thing I can say about what happened when my team started integrating AI into our software development lifecycle.</p>
+
+  <p>A year ago, we were spending a significant chunk of every sprint on manual QA. Writing test cases. Running regression checks. Chasing coverage gaps. It was necessary work — but it was also slowing us down at exactly the wrong moment.</p>
+
+  <p>Today, we've reduced that manual QA effort by <strong>30%</strong>. And the way we got there wasn't by hiring more testers. It was by putting Claude AI directly into our SDLC.</p>
+
+  <p>Here's the honest story of how we did it, what worked, and what surprised me most as a leader.</p>
+
+  <div class="divider"><div class="divider-dot"></div></div>
+
+  <h2>The problem we were actually solving</h2>
+
+  <p>Our engineering teams deliver enterprise-scale digital platforms — the kind where a missed edge case doesn't just affect one user, it affects millions. Manual test creation was a bottleneck at every release cycle.</p>
+
+  <p>Developers were writing code faster than tests could catch up. QA engineers were drowning in repetitive, low-creativity work that deserved better. The real problem wasn't a lack of effort. <em>It was a process that hadn't evolved to match the pace of modern delivery.</em></p>
+
+  <blockquote>
+    <p>"The question I keep coming back to as an engineering leader isn't 'can AI do this task?' — it's 'what does this free my engineers up to do instead?'"</p>
+    <cite>— Vasugi Andavar</cite>
+  </blockquote>
+
+  <div class="divider"><div class="divider-dot"></div></div>
+
+  <h2>What we tried — and what actually worked</h2>
+
+  <p>We integrated Claude AI into our SDLC with one clear goal: automate the generation of unit and integration test cases so engineers could focus on logic, edge cases, and exploratory testing — the work that actually requires human judgment.</p>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-val">30%</div>
+      <div class="metric-lbl">Reduction in manual QA effort</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">2x</div>
+      <div class="metric-lbl">Faster test case generation</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">↑</div>
+      <div class="metric-lbl">Test coverage per sprint</div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-dot"></div></div>
+
+  <h2>How we actually implemented it</h2>
+
+  <p>We didn't just hand Claude a codebase and hope for the best. The implementation was intentional and phased.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Started small with a low-risk pilot</div>
+        <p class="step-body">We piloted with one product team on a non-critical service. This gave us room to learn without risk — and gave skeptics on the team time to see results before committing.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Invested heavily in prompt engineering</div>
+        <p class="step-body">Generic prompts gave generic tests. Once we embedded context about our architecture, domain models, and edge case patterns — the output quality jumped significantly. This step is where most teams underinvest.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Kept engineers firmly in the loop</div>
+        <p class="step-body">AI-generated tests were reviewed — not rubber-stamped. Engineers still owned quality. The AI handled the scaffolding; humans handled the judgment. This distinction matters more than people realize.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Measured rigorously before and after</div>
+        <p class="step-body">We tracked test case creation time, coverage rates, and defect escape rates per sprint. Without measurement, you can't prove value — and you can't improve what you can't see.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-dot"></div></div>
+
+  <h2>What surprised me as a leader</h2>
+
+  <p>The biggest surprise wasn't the productivity gain — it was the <strong>shift in team energy</strong>.</p>
+
+  <p>QA engineers who used to spend hours on repetitive test writing were now spending that time on exploratory testing, edge case analysis, and test strategy. The work became more interesting. Morale improved noticeably. Engineers started <em>looking forward</em> to QA as a creative problem-solving activity rather than a checklist exercise.</p>
+
+  <p>I also learned that AI in the SDLC isn't a plug-and-play solution. It rewards investment in prompt engineering, contextual setup, and clear guardrails. Teams that treat it as a magic button will be disappointed. Teams that treat it as a skilled collaborator will see real returns.</p>
+
+  <div class="callout">
+    <div class="callout-label">Key Insight</div>
+    <p>The 30% reduction in manual work wasn't the real win. The real win was reclaiming 30% of engineer time for higher-leverage thinking. That compounding effect is where the long-term ROI lives.</p>
+  </div>
+
+  <div class="divider"><div class="divider-dot"></div></div>
+
+  <h2>Where we're going next</h2>
+
+  <p>This was one piece of a larger AI transformation effort across our engineering organization. We're now exploring AI-assisted code reviews, documentation generation, and expanding our <strong>OpsMate</strong> platform — a Generative AI-powered assistant that's already reducing operational support tickets and enabling self-service troubleshooting at scale.</p>
+
+  <p>The playbook we built for QA automation is becoming the foundation for how we approach AI adoption across the entire SDLC — always with measurement, always with human oversight, always asking: what does this free my engineers up to do instead?</p>
+
+  <p>If you're an engineering leader exploring AI in your delivery process, I'd love to hear what you're seeing. Drop a comment or reach out directly — the best lessons in this space are still being written.</p>
+
+</article>
+
+<!-- FOOTER -->
+<div class="post-footer">
+  <div class="share-label">Topics</div>
+  <div class="hashtags">
+    <a class="hashtag" href="#">#AIEngineering</a>
+    <a class="hashtag" href="#">#EngineeringLeadership</a>
+    <a class="hashtag" href="#">#GenerativeAI</a>
+    <a class="hashtag" href="#">#TestAutomation</a>
+    <a class="hashtag" href="#">#DevProductivity</a>
+    <a class="hashtag" href="#">#CloudTransformation</a>
+  </div>
+
+  <div class="author-bio">
+    <div class="bio-avatar">VA</div>
+    <div>
+      <div class="bio-name">Vasugi Andavar</div>
+      <div class="bio-title">Engineering Manager · Vanguard</div>
+      <p class="bio-text">Strategic engineering leader with 19+ years driving AI, cloud, and enterprise digital transformation. Currently leading MarTech platform engineering at Vanguard, Charlotte NC.</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">← Back to profile</a>
+</div>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  });
+</script>
+</body>
+</html>
