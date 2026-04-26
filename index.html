@@ -5,461 +5,639 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vasugi Andavar | Engineering Manager & AI Transformation Leader</title>
 <meta name="description" content="Vasugi Andavar — Engineering Manager, AI & Cloud Transformation Leader, Solutions Architect with 19+ years driving enterprise digital transformation.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #f7f4ef;
-  --surface:  #ffffff;
-  --ink:      #1a1612;
-  --ink2:     #4a4540;
-  --ink3:     #8a8480;
-  --red:      #c0392b;
-  --red2:     #e74c3c;
-  --gold:     #b8860b;
-  --border:   #e0dbd4;
-  --card-bg:  #fdfbf8;
+  --night:   #f5f2ed;
+  --deep:    #edeae4;
+  --card:    #ffffff;
+  --lift:    #fdf9f5;
+  --glass:   rgba(0,0,0,0.02);
+  --gline:   rgba(0,0,0,0.06);
+  --ink:     #1c1712;
+  --ink2:    #4a4540;
+  --ink3:    #8a8480;
+  --fire:    #c0390e;
+  --fire2:   #d94f20;
+  --ember:   rgba(192,57,14,0.08);
+  --gold:    #b8860b;
+  --teal:    #0d9488;
+  --border:  rgba(0,0,0,0.08);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
 body {
-  background: var(--bg);
+  background: var(--night);
   color: var(--ink);
-  font-family: 'Lato', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-weight: 300;
   line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── CANVAS BACKGROUND ── */
+#bg-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; opacity: 0.5;
 }
 
 /* ── NAV ── */
 nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  background: var(--ink);
-  padding: 0 2rem;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   display: flex; align-items: center; justify-content: space-between;
-  height: 52px;
+  padding: 0 3rem; height: 60px;
+  background: rgba(245,242,237,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
 }
-.nav-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem; letter-spacing: 0.12em;
-  color: #fff; text-decoration: none;
-}
-.nav-name span { color: var(--red2); }
-.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+}.nav-logo span { color: var(--fire2); }
+.nav-links { display:flex; gap:0; list-style:none; }
 .nav-links a {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.5); text-decoration: none;
-  padding: 0 1.2rem; height: 52px; display: flex; align-items: center;
-  border-left: 1px solid rgba(255,255,255,0.06);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink3); text-decoration: none;
+  padding: 0 1.25rem; height: 60px;
+  display: flex; align-items: center;
+  border-left: 1px solid var(--border);
   transition: color 0.2s, background 0.2s;
 }
-.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.nav-links a:hover { color: var(--fire2); background: var(--ember); }
 
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
-  display: grid; grid-template-columns: 1fr 1fr;
-  margin-top: 52px;
+  display: grid; grid-template-columns: 55% 45%;
+  margin-top: 60px;
+  position: relative; z-index: 1;
 }
-.hero-left {
-  background: var(--ink);
-  padding: 5rem 4rem;
-  display: flex; flex-direction: column; justify-content: center;
-  position: relative; overflow: hidden;
-}
-.hero-left::before {
-  content: 'VA';
-  position: absolute; bottom: -1rem; right: -1rem;
-  font-family: 'Playfair Display', serif;
-  font-size: 18rem; font-weight: 700;
-  color: rgba(255,255,255,0.025);
-  line-height: 1; pointer-events: none;
-  user-select: none;
-}
-.hero-mono {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--red2); margin-bottom: 1.5rem;
-  opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
-}
-.hero-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 5vw, 4.5rem);
-  font-weight: 400; color: #fff; line-height: 1.1;
-  margin-bottom: 1rem;
-  opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards;
-}
-.hero-title {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.95rem; font-weight: 300;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.8; margin-bottom: 2.5rem;
-  opacity: 0; animation: fadeUp 0.7s ease 0.4s forwards;
-}
-.hero-contact {
-  display: flex; flex-direction: column; gap: 0.5rem;
-  opacity: 0; animation: fadeUp 0.7s ease 0.55s forwards;
-}
-.contact-row {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.72rem; color: rgba(255,255,255,0.45);
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.contact-row .ci { color: var(--red2); font-size: 0.8rem; }
-.contact-row a { color: rgba(255,255,255,0.45); text-decoration: none; }
-.contact-row a:hover { color: var(--red2); }
 
+.hero-left {
+  padding: 6rem 5rem;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+  background: var(--ink);
+}
+.hero-left .hero-name { color: #fff; }
+.hero-left .hero-summary { color: rgba(255,255,255,0.6); }
+.hero-left .hero-summary strong { color: rgba(255,255,255,0.9); font-weight: 400; }
+.hero-left .hero-designation { color: rgba(255,255,255,0.45); }
+.hero-left .contact-item { color: rgba(255,255,255,0.4); }
+.hero-left .contact-item a { color: rgba(255,255,255,0.4); }
+.hero-left .contact-item a:hover { color: var(--fire2); }
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.1s forwards;
+}
+.eyebrow-line {
+  width: 32px; height: 1px; background: var(--fire2);
+}
+.eyebrow-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--fire2);
+}
+
+.hero-name {
+  font-family: 'Cormorant', serif;
+  font-size: clamp(4rem, 7vw, 7rem);
+  font-weight: 300; line-height: 0.95;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 0.5rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.25s forwards;
+}
+.hero-name-last {
+  font-style: italic; color: var(--fire2);
+  display: block;
+}
+
+.hero-designation {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink2); margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+  border-left: 2px solid var(--fire);
+  padding-left: 1rem;
+}
+
+.hero-summary {
+  font-size: 1rem; font-weight: 300; color: var(--ink2);
+  line-height: 1.85; max-width: 480px; margin-bottom: 3rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.55s forwards;
+}
+.hero-summary strong { color: var(--ink); font-weight: 400; }
+
+.hero-contacts {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards;
+}
+.contact-item {
+  display: flex; align-items: center; gap: 0.85rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--ink3);
+}
+.contact-item a { color: var(--ink3); text-decoration: none; transition: color 0.2s; }
+.contact-item a:hover { color: var(--fire2); }
+.c-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--fire); flex-shrink: 0;
+}
+
+/* Hero Right */
 .hero-right {
-  background: var(--surface);
-  padding: 5rem 4rem;
+  padding: 6rem 4rem 6rem 3rem;
   display: flex; flex-direction: column; justify-content: center;
   border-left: 1px solid var(--border);
+  position: relative;
 }
-.hero-summary {
-  font-size: 1.05rem; font-weight: 300; color: var(--ink2);
-  line-height: 1.9; margin-bottom: 2.5rem;
-}
-.hero-summary strong { color: var(--ink); font-weight: 700; }
 
-.stat-row {
+.stats-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 1px; border: 1px solid var(--border); margin-bottom: 2.5rem;
+  gap: 1px; background: var(--border);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
 }
-.stat {
-  padding: 1.25rem 1.5rem; background: var(--card-bg);
-  border-right: 1px solid var(--border);
-}
-.stat:nth-child(2n) { border-right: none; }
-.stat:nth-child(n+3) { border-top: 1px solid var(--border); }
-.stat-val {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2rem; font-weight: 500; color: var(--red);
-  line-height: 1;
-}
-.stat-lbl {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink3); margin-top: 0.3rem;
-}
-
-.citizen-badge {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  border: 1px solid var(--border); padding: 0.5rem 1rem;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink3);
-}
-
-/* ── SECTION COMMON ── */
-section { padding: 5rem 0; }
-.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
-
-.sec-header {
-  display: flex; align-items: baseline; gap: 1.5rem;
-  margin-bottom: 3rem; padding-bottom: 1rem;
-  border-bottom: 2px solid var(--ink);
-}
-.sec-num {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem; letter-spacing: 0.2em;
-  color: var(--red); text-transform: uppercase;
-}
-.sec-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem; font-weight: 400;
-}
-.sec-title em { font-style: italic; color: var(--red); }
-
-/* ── IMPACT ── */
-#impact { background: var(--ink); color: #fff; }
-#impact .sec-header { border-bottom-color: rgba(255,255,255,0.15); }
-#impact .sec-num { color: var(--red2); }
-#impact .sec-title { color: #fff; }
-
-.impact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: rgba(255,255,255,0.08);
-}
-.impact-item {
-  background: var(--ink);
-  padding: 2.5rem 2rem;
+.stat-box {
+  background: var(--card);
+  padding: 1.5rem 1.75rem;
   position: relative; overflow: hidden;
   transition: background 0.3s;
 }
-.impact-item:hover { background: #1f1b16; }
-.impact-item::after {
+.stat-box:hover { background: var(--lift); }
+.stat-box::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--red); transform: scaleX(0); transform-origin: left;
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--fire), transparent);
+  transform: scaleX(0); transform-origin: left;
   transition: transform 0.4s ease;
 }
-.impact-item:hover::after { transform: scaleX(1); }
+.stat-box:hover::before { transform: scaleX(1); }
+.stat-num {
+  font-family: 'Cormorant', serif;
+  font-size: 2.6rem; font-weight: 400; color: var(--fire2);
+  line-height: 1; margin-bottom: 0.3rem;
+}
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink3);
+  line-height: 1.4;
+}
+
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.htag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--border);
+  color: var(--ink2);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.htag:hover { border-color: var(--fire); color: var(--fire2); background: var(--ember); }
+
+.edu-badge {
+  padding: 0.85rem 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.edu-badge-icon { color: var(--gold); font-size: 1rem; }
+.edu-badge-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--ink3); letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+.edu-badge-text strong { color: var(--ink2); font-weight: 400; }
+
+/* ── SECTIONS ── */
+section { padding: 6rem 0; position: relative; z-index: 1; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+
+.sec-head {
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+.sec-line {
+  width: 40px; height: 1px; background: var(--fire);
+}
+.sec-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--fire2);
+}
+.sec-title {
+  font-family: 'Cormorant', serif;
+  font-size: 2.6rem; font-weight: 300; color: var(--ink);
+  line-height: 1.15;
+}
+.sec-title em { font-style: italic; color: var(--fire2); }
+
+/* ── IMPACT ── */
+#impact { background: var(--ink); }
+#impact .sec-title { color: #fff; }
+#impact .sec-num { color: var(--fire2); }
+
+.impact-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+}
+.impact-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 2.5rem 2rem;
+  position: relative; overflow: hidden;
+  transition: background 0.3s, transform 0.3s;
+  cursor: default;
+}
+.impact-card:hover { background: rgba(255,255,255,0.08); }
+.impact-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at top left, var(--ember), transparent 70%);
+  opacity: 0; transition: opacity 0.4s;
+}
+.impact-card:hover::before { opacity: 1; }
+.impact-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--fire), var(--fire2), transparent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.impact-card:hover::after { transform: scaleX(1); }
 
 .impact-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem; font-weight: 500; color: var(--red2);
-  line-height: 1; margin-bottom: 0.5rem;
+  font-family: 'Cormorant', serif;
+  font-size: 3.5rem; font-weight: 400; color: var(--fire2);
+  line-height: 1; margin-bottom: 0.6rem;
+  position: relative;
 }
 .impact-desc {
-  font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.6;
+  font-size: 0.85rem; color: var(--ink2); line-height: 1.7;
+  position: relative;
 }
 
 /* ── EXPERIENCE ── */
-#experience { background: var(--surface); }
+#experience { background: var(--night); }
 
-.exp-block { margin-bottom: 3.5rem; }
-.exp-company {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem; font-weight: 500;
-  margin-bottom: 0.25rem;
+.exp-block { margin-bottom: 4rem; }
+.company-header {
+  display: flex; align-items: baseline; gap: 1.5rem;
+  margin-bottom: 1.5rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
-.exp-location {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem; letter-spacing: 0.15em;
-  color: var(--ink3); text-transform: uppercase;
-  margin-bottom: 1.5rem;
+.company-name {
+  font-family: 'Cormorant', serif;
+  font-size: 1.8rem; font-weight: 400; color: var(--ink);
+}
+.company-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink3);
 }
 
-.role {
-  padding: 1.5rem;
+.role-card {
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 2px;
-  margin-bottom: 1rem;
-  background: var(--card-bg);
+  margin-bottom: 1px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.role-card:hover { border-color: rgba(232,57,14,0.3); }
+.role-card:first-of-type { border-top: 2px solid var(--fire); }
+
+.role-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 1.5rem; gap: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.role-header:hover { background: var(--lift); }
+.role-title-text {
+  font-family: 'Cormorant', serif;
+  font-size: 1.15rem; font-weight: 400; color: var(--ink);
+}
+.role-date-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.1em;
+  color: var(--fire2);
+  border: 1px solid rgba(232,57,14,0.3);
+  padding: 0.2rem 0.65rem;
+  white-space: nowrap; flex-shrink: 0;
+}
+.role-body { padding: 0 1.5rem 1.5rem; }
+.role-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--fire); margin: 1rem 0 0.5rem;
+}
+.role-list { list-style: none; }
+.role-list li {
+  font-size: 0.875rem; color: var(--ink2); line-height: 1.7;
+  padding: 0.3rem 0 0.3rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
   position: relative;
 }
-.role::before {
-  content: '';
-  position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
-  background: var(--red);
+.role-list li:last-child { border-bottom: none; }
+.role-list li::before {
+  content: '›'; position: absolute; left: 0;
+  color: var(--fire); font-size: 1rem; line-height: 1.5;
 }
-.role-header {
-  display: flex; justify-content: space-between;
-  align-items: flex-start; gap: 1rem; margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-.role-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; font-weight: 500;
-}
-.role-date {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.1em;
-  color: var(--red); white-space: nowrap;
-  border: 1px solid rgba(192,57,43,0.3); padding: 0.2rem 0.6rem;
-}
-
-.role-sub {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--ink3); margin: 1rem 0 0.5rem;
-}
-.role ul { list-style: none; padding: 0; }
-.role ul li {
-  font-size: 0.88rem; color: var(--ink2);
-  padding: 0.3rem 0 0.3rem 1.25rem;
-  position: relative; border-bottom: 1px solid var(--border);
-}
-.role ul li:last-child { border-bottom: none; }
-.role ul li::before {
-  content: '→';
-  position: absolute; left: 0;
-  color: var(--red); font-size: 0.75rem;
-}
-.role ul li strong { color: var(--ink); font-weight: 700; }
+.role-list li strong { color: var(--ink); font-weight: 400; }
 
 /* ── COMPETENCIES ── */
-#competencies { background: var(--bg); }
+#competencies { background: var(--deep); }
 
 .comp-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border);
 }
 .comp-card {
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 1.75rem; transition: border-color 0.3s, transform 0.3s;
+  background: var(--card); padding: 2rem;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
 }
-.comp-card:hover { border-color: var(--red); transform: translateY(-2px); }
-.comp-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--red); margin-bottom: 0.75rem;
+.comp-card:hover { background: var(--lift); }
+.comp-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: var(--fire); transform: scaleY(0); transform-origin: top;
+  transition: transform 0.4s ease;
+}
+.comp-card:hover::before { transform: scaleY(1); }
+.comp-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--fire2); margin-bottom: 0.5rem;
 }
 .comp-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 500; margin-bottom: 0.75rem;
+  font-family: 'Cormorant', serif;
+  font-size: 1.15rem; font-weight: 400; color: var(--ink);
+  margin-bottom: 1rem; line-height: 1.3;
 }
 .comp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.comp-tag {
+.ctag {
   font-size: 0.72rem; color: var(--ink3);
-  border: 1px solid var(--border); padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.6rem;
+  font-family: 'DM Mono', monospace;
+  transition: color 0.2s, border-color 0.2s;
 }
+.comp-card:hover .ctag { color: var(--ink2); border-color: rgba(232,57,14,0.2); }
 
 /* ── TECH STACK ── */
-#stack { background: var(--surface); }
+#stack { background: var(--night); }
 
-.stack-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
-  background: var(--border); border: 1px solid var(--border);
+.stack-table {
+  width: 100%; border-collapse: collapse;
+  border: 1px solid var(--border);
 }
-.stack-row {
-  background: var(--card-bg);
-  display: flex; gap: 0; padding: 0;
+.stack-table tr { border-bottom: 1px solid var(--border); }
+.stack-table tr:last-child { border-bottom: none; }
+.stack-table tr:hover td { background: var(--lift); }
+.stack-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink); background: var(--card);
+  padding: 1rem 1.5rem;
+  width: 160px; vertical-align: middle;
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
 }
-.stack-cat-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
-  color: #fff; background: var(--ink);
-  padding: 1rem 1.2rem;
-  min-width: 140px; display: flex; align-items: flex-start;
-  writing-mode: horizontal-tb;
-}
-.stack-items {
+.stack-items-cell {
+  background: rgba(255,255,255,0.01);
   padding: 0.75rem 1.25rem;
-  display: flex; flex-wrap: wrap; gap: 0.4rem; align-content: flex-start;
-  flex: 1;
+  transition: background 0.2s;
 }
+.stags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .stag {
-  font-size: 0.75rem; padding: 0.25rem 0.65rem;
-  background: var(--bg); border: 1px solid var(--border);
-  color: var(--ink2);
-  font-family: 'IBM Plex Mono', monospace;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--ink2);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.7rem;
+  transition: all 0.2s;
 }
-.stag:hover {
-  background: var(--red);
-  border-color: var(--red);
-  color: #fff;
+.stag:hover { color: var(--fire2); border-color: var(--fire); background: var(--ember); }
+
+/* ── BLOG ── */
+#blog { background: var(--deep); }
+
+.blog-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border);
+}
+.blog-card {
+  background: var(--card);
+  padding: 2rem;
+  text-decoration: none;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.blog-card:hover { background: var(--lift); }
+.blog-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.blog-card:hover::after { transform: scaleX(1); }
+.blog-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+.blog-title {
+  font-family: 'Cormorant', serif;
+  font-size: 1.25rem; font-weight: 400; color: var(--ink);
+  line-height: 1.35; margin-bottom: 0.75rem; flex: 1;
+}
+.blog-excerpt {
+  font-size: 0.82rem; color: var(--ink3); line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.blog-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.1em; color: var(--ink3);
+}
+.blog-arrow { color: var(--fire2); font-size: 1rem; transition: transform 0.2s; }
+.blog-card:hover .blog-arrow { transform: translateX(4px); }
+
+.blog-coming {
+  opacity: 0.4; cursor: default; pointer-events: none;
 }
 
-/* ── EDUCATION & CERTS ── */
-#credentials { background: var(--bg); }
+/* ── CREDENTIALS ── */
+#credentials { background: var(--night); }
 
-.cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-
-.edu-block, .cert-block {
-  background: var(--surface); border: 1px solid var(--border); padding: 2rem;
+.cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.cred-panel {
+  background: var(--card); padding: 2.5rem;
 }
-.block-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--red); margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+.panel-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--fire2); margin-bottom: 1.5rem;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+  display: block;
 }
-.edu-item { margin-bottom: 1.25rem; }
-.edu-item:last-child { margin-bottom: 0; }
-.edu-degree {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 500; margin-bottom: 0.2rem;
+.edu-entry { margin-bottom: 1.5rem; }
+.edu-entry:last-child { margin-bottom: 0; }
+.edu-deg {
+  font-family: 'Cormorant', serif;
+  font-size: 1.2rem; font-weight: 400; color: var(--ink);
+  margin-bottom: 0.2rem;
 }
-.edu-school {
-  font-size: 0.82rem; color: var(--ink3);
-}
+.edu-inst { font-size: 0.82rem; color: var(--ink3); }
 .edu-status {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.1em;
-  color: var(--red); text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--teal); margin-top: 0.2rem;
 }
 
-.cert-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.cert-item {
-  display: flex; align-items: flex-start; gap: 0.75rem;
-  font-size: 0.82rem; color: var(--ink2); line-height: 1.4;
+.cert-items { display: flex; flex-direction: column; gap: 0.5rem; }
+.cert-row {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 0.85rem; color: var(--ink2); line-height: 1.4;
+  transition: color 0.2s;
 }
-.cert-bullet {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--red); flex-shrink: 0; margin-top: 0.45rem;
+.cert-row:hover { color: var(--ink); }
+.cert-row:last-child { border-bottom: none; }
+.cert-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--fire); flex-shrink: 0; margin-top: 0.5rem;
 }
 
 /* ── AWARDS ── */
-#awards { background: var(--ink); color: #fff; }
-#awards .sec-header { border-bottom-color: rgba(255,255,255,0.12); }
-#awards .sec-num { color: var(--red2); }
+#awards { background: var(--ink); }
 #awards .sec-title { color: #fff; }
+#awards .sec-num { color: var(--fire2); }
+#awards .award-tile { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); }
+#awards .award-tile:hover { background: rgba(255,255,255,0.08); }
+#awards .award-name { color: #fff; }
+#awards .award-org { color: rgba(255,255,255,0.4); }
 
-.awards-strip {
+.awards-grid {
   display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 1px; background: rgba(255,255,255,0.06);
+  gap: 1px; background: var(--border);
 }
-.award-cell {
-  background: var(--ink); padding: 2rem 1.5rem;
-  text-align: center;
+.award-tile {
+  background: var(--card);
+  padding: 2.5rem 1.5rem; text-align: center;
+  position: relative; overflow: hidden;
   transition: background 0.3s;
 }
-.award-cell:hover { background: #1f1b16; }
-.award-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-.award-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.9rem; font-weight: 400; color: #fff; margin-bottom: 0.35rem;
+.award-tile:hover { background: var(--lift); }
+.award-tile::before {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px; background: var(--gold);
+  transition: width 0.4s ease;
+}
+.award-tile:hover::before { width: 80%; }
+.award-glyph { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+.award-name {
+  font-family: 'Cormorant', serif;
+  font-size: 0.95rem; font-weight: 400; color: var(--ink);
+  line-height: 1.3; margin-bottom: 0.4rem;
 }
 .award-org {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: rgba(255,255,255,0.35);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink3);
 }
 
 /* ── FOOTER ── */
 footer {
-  background: #0f0d0a; color: rgba(255,255,255,0.35);
-  padding: 3rem 2rem; text-align: center;
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 4rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 2rem;
+  position: relative; z-index: 1;
 }
+.footer-brand {}
 .footer-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem; font-weight: 400; color: #fff; margin-bottom: 0.25rem;
+  font-family: 'Cormorant', serif;
+  font-size: 1.75rem; font-weight: 300; color: #fff;
+  margin-bottom: 0.25rem;
 }
-.footer-sub {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--red2); margin-bottom: 1.5rem;
+.footer-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--fire2);
 }
-.footer-contact {
-  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+.footer-links {
+  display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;
 }
-.footer-contact a {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.7rem; color: rgba(255,255,255,0.35); text-decoration: none;
-  transition: color 0.2s;
+.footer-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: rgba(255,255,255,0.4); text-decoration: none;
+  letter-spacing: 0.06em; transition: color 0.2s;
 }
-.footer-contact a:hover { color: var(--red2); }
+.footer-links a:hover { color: var(--fire2); }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-left, .hero-right { padding: 3rem 2rem; }
-  .hero-left::before { display: none; }
-  .impact-grid { grid-template-columns: 1fr 1fr; }
-  .comp-grid { grid-template-columns: 1fr 1fr; }
-  .awards-strip { grid-template-columns: 1fr 1fr; }
+  .hero-left, .hero-right { padding: 4rem 2rem; }
+  .impact-grid, .comp-grid { grid-template-columns: 1fr 1fr; }
+  .awards-grid { grid-template-columns: 1fr 1fr; }
   .cred-grid { grid-template-columns: 1fr; }
-  .stack-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
   .nav-links { display: none; }
+  nav { padding: 0 1.5rem; }
+  .container { padding: 0 1.5rem; }
 }
 @media (max-width: 600px) {
-  .impact-grid { grid-template-columns: 1fr; }
-  .comp-grid { grid-template-columns: 1fr; }
-  .awards-strip { grid-template-columns: 1fr; }
-  .stat-row { grid-template-columns: 1fr; }
+  .impact-grid, .comp-grid, .awards-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stack-table { display: block; overflow-x: auto; }
+  footer { flex-direction: column; align-items: flex-start; }
+  .footer-links { align-items: flex-start; }
 }
 </style>
 </head>
 <body>
 
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── NAV ── -->
 <nav>
-  <a href="#" class="nav-name">Vasugi <span>Andavar</span></a>
+  <a href="#" class="nav-logo">Vasugi <span>Andavar</span></a>
   <ul class="nav-links">
     <li><a href="#impact">Impact</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#competencies">Skills</a></li>
     <li><a href="#stack">Stack</a></li>
+    <li><a href="#blog">Blog</a></li>
     <li><a href="#credentials">Credentials</a></li>
     <li><a href="#awards">Awards</a></li>
   </ul>
@@ -468,43 +646,62 @@ footer {
 <!-- ── HERO ── -->
 <section class="hero" id="top">
   <div class="hero-left">
-    <p class="hero-mono">Engineering Manager · AI & Cloud Leader · Solutions Architect</p>
-    <h1 class="hero-name">Vasugi<br>Andavar</h1>
-    <p class="hero-title">
-      Strategic leader with 19+ years of experience driving enterprise digital transformation 
-      through AI, cloud modernization, and scalable architecture. Currently at Vanguard, Charlotte NC.
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Engineering Manager · AI & Cloud · Solutions Architect</span>
+    </div>
+    <h1 class="hero-name">
+      Vasugi
+      <span class="hero-name-last">Andavar</span>
+    </h1>
+    <div class="hero-designation">19+ Years · Enterprise Digital Transformation · Charlotte, NC</div>
+    <p class="hero-summary">
+      Strategic leader driving <strong>AI-enabled innovation, operational resilience,</strong> and business-aligned technology delivery. Known for building high-performing teams and fostering a culture of <strong>innovation, inclusion, and continuous improvement.</strong>
     </p>
-    <div class="hero-contact">
-      <div class="contact-row"><span class="ci">📍</span> Charlotte, NC</div>
-      <div class="contact-row"><span class="ci">📞</span> (402) 210-7524</div>
-      <div class="contact-row"><span class="ci">✉</span> <a href="mailto:vasugiandavar@gmail.com">vasugiandavar@gmail.com</a></div>
-      <div class="contact-row"><span class="ci">🇺🇸</span> US Citizen</div>
+    <div class="hero-contacts">
+      <div class="contact-item"><div class="c-dot"></div> Charlotte, NC · US Citizen</div>
+      <div class="contact-item"><div class="c-dot"></div> <a href="tel:4022107524">(402) 210-7524</a></div>
+      <div class="contact-item"><div class="c-dot"></div> <a href="mailto:vasugiandavar@gmail.com">vasugiandavar@gmail.com</a></div>
     </div>
   </div>
+
   <div class="hero-right">
-    <p class="hero-summary">
-      Known for driving <strong>AI-enabled innovation, operational resilience, and business-aligned technology delivery</strong>. Experienced in building strong stakeholder partnerships, mentoring engineering talent, and fostering a culture of <strong>innovation, inclusion, and continuous improvement</strong>.
-    </p>
-    <div class="stat-row">
-      <div class="stat">
-        <div class="stat-val">19+</div>
-        <div class="stat-lbl">Years Experience</div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num">19+</div>
+        <div class="stat-label">Years Experience</div>
       </div>
-      <div class="stat">
-        <div class="stat-val">30+</div>
-        <div class="stat-lbl">Engineers Led</div>
+      <div class="stat-box">
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Engineers Led</div>
       </div>
-      <div class="stat">
-        <div class="stat-val">$100K+</div>
-        <div class="stat-lbl">Annual Infra Savings</div>
+      <div class="stat-box">
+        <div class="stat-num">$100K+</div>
+        <div class="stat-label">Annual Infra Savings</div>
       </div>
-      <div class="stat">
-        <div class="stat-val">60%</div>
-        <div class="stat-lbl">API Latency Reduction</div>
+      <div class="stat-box">
+        <div class="stat-num">60%</div>
+        <div class="stat-label">API Latency Reduced</div>
       </div>
     </div>
-    <div class="citizen-badge">
-      <span>🎓</span> MBA In Progress · University of Massachusetts Lowell
+
+    <div class="hero-tags">
+      <span class="htag">Generative AI</span>
+      <span class="htag">AEM Cloud</span>
+      <span class="htag">AWS Bedrock</span>
+      <span class="htag">Agentic AI</span>
+      <span class="htag">GraphQL</span>
+      <span class="htag">Microservices</span>
+      <span class="htag">SRE</span>
+      <span class="htag">DDD</span>
+    </div>
+
+    <div class="edu-badge">
+      <span class="edu-badge-icon">🎓</span>
+      <div class="edu-badge-text">
+        <strong>MBA In Progress</strong> · University of Massachusetts Lowell<br>
+        BE Computer Science · Anna University
+      </div>
     </div>
   </div>
 </section>
@@ -512,34 +709,35 @@ footer {
 <!-- ── IMPACT ── -->
 <section id="impact">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">01 — Executive Impact</span>
-      <h2 class="sec-title">Measurable <em>Outcomes</em></h2>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Executive <em>Impact</em></h2>
     </div>
-    <div class="impact-grid fade-in">
-      <div class="impact-item">
+    <div class="impact-grid reveal">
+      <div class="impact-card">
         <div class="impact-num">60%</div>
         <div class="impact-desc">Reduction in API response latency via GraphQL and SuperGraph architecture modernization</div>
       </div>
-      <div class="impact-item">
+      <div class="impact-card">
         <div class="impact-num">$100K+</div>
         <div class="impact-desc">Annual infrastructure savings through AWS cloud migration and serverless modernization</div>
       </div>
-      <div class="impact-item">
+      <div class="impact-card">
         <div class="impact-num">30%</div>
         <div class="impact-desc">Reduction in manual work and increased productivity enabled by Claude Code AI integration</div>
       </div>
-      <div class="impact-item">
-        <div class="impact-num">Months→Hours</div>
+      <div class="impact-card">
+        <div class="impact-num">Months→Hrs</div>
         <div class="impact-desc">Accelerated digital content delivery through Gradial-based authoring automation</div>
       </div>
-      <div class="impact-item">
+      <div class="impact-card">
         <div class="impact-num">30+</div>
-        <div class="impact-desc">Engineers led across multiple product teams, fostering accountability and innovation culture</div>
+        <div class="impact-desc">Engineers led across multiple product teams, fostering accountability and innovation</div>
       </div>
-      <div class="impact-item">
+      <div class="impact-card">
         <div class="impact-num">OpsMate</div>
-        <div class="impact-desc">AI-powered chatbot enabling self-service troubleshooting, reducing operational tickets and support costs</div>
+        <div class="impact-desc">AI-powered self-service troubleshooting chatbot reducing operational tickets and support costs</div>
       </div>
     </div>
   </div>
@@ -548,111 +746,127 @@ footer {
 <!-- ── EXPERIENCE ── -->
 <section id="experience">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">02 — Professional Experience</span>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">02</span>
       <h2 class="sec-title">Career <em>History</em></h2>
     </div>
 
-    <!-- VANGUARD -->
-    <div class="exp-block fade-in">
-      <div class="exp-company">Vanguard</div>
-      <div class="exp-location">Charlotte, NC</div>
-
-      <div class="role">
-        <div class="role-header">
-          <div class="role-title">Engineering Manager — MarTech, Corporate Systems</div>
-          <div class="role-date">July 2024 – Present</div>
-        </div>
-        <p class="role-sub">AI Transformation Leadership</p>
-        <ul>
-          <li>Spearheaded <strong>OpsMate</strong> — a Generative AI-powered operational assistant enabling self-service troubleshooting and knowledge discovery, reducing incoming operations tickets and costs</li>
-          <li>Implemented AI-assisted test automation using <strong>Claude</strong>, generating unit and integration test cases to improve coverage, accelerate delivery, and reduce manual QA effort</li>
-          <li>Led adoption of <strong>Generative AI and Agentic AI frameworks</strong> to automate engineering workflows and streamline operations</li>
-          <li>Evaluated AI capabilities using <strong>Amazon Bedrock</strong> to support internal AI-driven automation initiatives</li>
-        </ul>
-        <p class="role-sub">Engineering Leadership</p>
-        <ul>
-          <li>Manage and mentor <strong>30+ engineers across multiple product teams</strong>, fostering a culture of accountability and innovation</li>
-          <li>Govern product backlogs and delivery execution ensuring alignment between engineering initiatives and business objectives</li>
-        </ul>
-        <p class="role-sub">Production Resilience & Cloud Transformation</p>
-        <ul>
-          <li>Designed proactive monitoring strategies and incident response playbooks, significantly reducing <strong>MTTR</strong> and improving platform stability</li>
-          <li>Led <strong>AEM On-Prem → AEM Cloud Service migration</strong>, validating cloud-native architecture and automated deployment capabilities</li>
-          <li>Introduced <strong>Gradial-based authoring acceleration</strong>, reducing content publishing timelines from months to hours</li>
-        </ul>
+    <div class="exp-block reveal">
+      <div class="company-header">
+        <div class="company-name">Vanguard</div>
+        <div class="company-meta">Charlotte, NC</div>
       </div>
 
-      <div class="role">
+      <div class="role-card">
         <div class="role-header">
-          <div class="role-title">IT Delivery Manager — Retail Systems</div>
+          <div class="role-title-text">Engineering Manager — MarTech, Corporate Systems</div>
+          <div class="role-date-badge">July 2024 – Present</div>
         </div>
-        <ul>
-          <li>Delivered <strong>GraphQL and SuperGraph APIs</strong>, improving platform response times by <strong>60%</strong></li>
-          <li>Implemented <strong>Liquibase-based database change management</strong>, enhancing release reliability</li>
-          <li>Served as <strong>Security Champion</strong>, driving secure development practices across engineering teams</li>
-          <li>Partnered with recruiting teams to hire high-performing technical talent</li>
-        </ul>
+        <div class="role-body">
+          <div class="role-section-label">AI Transformation</div>
+          <ul class="role-list">
+            <li>Spearheaded <strong>OpsMate</strong> — Generative AI-powered operational assistant enabling self-service troubleshooting, reducing tickets and support costs</li>
+            <li>Implemented AI-assisted test automation using <strong>Claude</strong>, improving coverage and reducing manual QA effort by 30%</li>
+            <li>Led adoption of <strong>Generative AI and Agentic AI frameworks</strong> to automate engineering workflows</li>
+            <li>Evaluated AI capabilities using <strong>Amazon Bedrock</strong> to support internal automation initiatives</li>
+          </ul>
+          <div class="role-section-label">Engineering Leadership</div>
+          <ul class="role-list">
+            <li>Manage and mentor <strong>30+ engineers across multiple product teams</strong>, fostering accountability and innovation culture</li>
+            <li>Govern product backlogs ensuring alignment between engineering initiatives and business objectives</li>
+          </ul>
+          <div class="role-section-label">Cloud & Production Resilience</div>
+          <ul class="role-list">
+            <li>Designed proactive monitoring and incident response playbooks, significantly reducing <strong>MTTR</strong></li>
+            <li>Led <strong>AEM On-Prem → AEM Cloud Service migration</strong> validating cloud-native architecture</li>
+            <li>Introduced <strong>Gradial-based authoring acceleration</strong>, reducing content publishing from months to hours</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="role">
+      <div class="role-card">
         <div class="role-header">
-          <div class="role-title">Application Engineering Tech Lead — FAS Systems</div>
+          <div class="role-title-text">IT Delivery Manager — Retail Systems</div>
         </div>
-        <ul>
-          <li>Engineered critical business process models for financial advisory platforms</li>
-          <li>Migrated core applications to <strong>AWS</strong>, delivering <strong>$100K+ annual infrastructure savings</strong> via serverless modernization</li>
-          <li>Built robotic automation solutions improving regression testing and compliance validation</li>
-        </ul>
+        <div class="role-body">
+          <ul class="role-list">
+            <li>Delivered <strong>GraphQL and SuperGraph APIs</strong>, improving platform response times by <strong>60%</strong></li>
+            <li>Implemented <strong>Liquibase-based database change management</strong>, enhancing release reliability</li>
+            <li>Served as <strong>Security Champion</strong>, driving secure development practices across teams</li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <!-- JOHN DEERE -->
-    <div class="exp-block fade-in">
-      <div class="exp-company">John Deere Financial</div>
-      <div class="exp-location">Johnston, IA · 2019 – 2021</div>
-      <div class="role">
+      <div class="role-card">
         <div class="role-header">
-          <div class="role-title">J2EE Lead Developer</div>
-          <div class="role-date">2019 – 2021</div>
+          <div class="role-title-text">Application Engineering Tech Lead — FAS Systems</div>
         </div>
-        <ul>
-          <li>Architected and launched <strong>Sales Center</strong>, a nationwide dealer payment platform</li>
-          <li>Migrated legacy applications to <strong>AWS</strong>, improving scalability and reliability</li>
-          <li>Received <strong>Women Empowerment Award</strong> for leadership and mentoring contributions</li>
-        </ul>
+        <div class="role-body">
+          <ul class="role-list">
+            <li>Engineered critical business process models for financial advisory platforms</li>
+            <li>Migrated core applications to <strong>AWS</strong>, delivering <strong>$100K+ annual infrastructure savings</strong></li>
+            <li>Built robotic automation improving regression testing and compliance validation</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- RAIN & HAIL -->
-    <div class="exp-block fade-in">
-      <div class="exp-company">Rain & Hail LLC (Chubb)</div>
-      <div class="exp-location">Johnston, IA · 2014 – 2019</div>
-      <div class="role">
+    <div class="exp-block reveal">
+      <div class="company-header">
+        <div class="company-name">John Deere Financial</div>
+        <div class="company-meta">Johnston, IA · 2019–2021</div>
+      </div>
+      <div class="role-card">
         <div class="role-header">
-          <div class="role-title">Technical Lead</div>
-          <div class="role-date">2014 – 2019</div>
+          <div class="role-title-text">J2EE Lead Developer</div>
+          <div class="role-date-badge">2019–2021</div>
         </div>
-        <ul>
-          <li>Modernized <strong>COBOL-based legacy systems to Java web applications</strong>, improving maintainability and scalability</li>
-          <li>Directed <strong>Business Intelligence initiatives</strong> and Agile transformation across teams</li>
-        </ul>
+        <div class="role-body">
+          <ul class="role-list">
+            <li>Architected and launched <strong>Sales Center</strong>, a nationwide dealer payment platform</li>
+            <li>Migrated legacy applications to <strong>AWS</strong>, improving scalability and reliability</li>
+            <li>Received <strong>Women Empowerment Award</strong> for leadership and mentoring contributions</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- TELLIGEN -->
-    <div class="exp-block fade-in">
-      <div class="exp-company">Telligen</div>
-      <div class="exp-location">West Des Moines, IA · 2007 – 2014</div>
-      <div class="role">
+    <div class="exp-block reveal">
+      <div class="company-header">
+        <div class="company-name">Rain & Hail LLC (Chubb)</div>
+        <div class="company-meta">Johnston, IA · 2014–2019</div>
+      </div>
+      <div class="role-card">
         <div class="role-header">
-          <div class="role-title">Senior Programmer Analyst</div>
-          <div class="role-date">2007 – 2014</div>
+          <div class="role-title-text">Technical Lead</div>
+          <div class="role-date-badge">2014–2019</div>
         </div>
-        <ul>
-          <li>Developed <strong>Section 508-compliant healthcare applications</strong> ensuring accessibility</li>
-          <li>Recognized multiple times with <strong>Best Team Player Awards</strong> for collaboration and mentorship</li>
-        </ul>
+        <div class="role-body">
+          <ul class="role-list">
+            <li>Modernized <strong>COBOL-based legacy systems to Java web applications</strong></li>
+            <li>Directed <strong>Business Intelligence initiatives</strong> and Agile transformation across teams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-block reveal">
+      <div class="company-header">
+        <div class="company-name">Telligen</div>
+        <div class="company-meta">West Des Moines, IA · 2007–2014</div>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-title-text">Senior Programmer Analyst</div>
+          <div class="role-date-badge">2007–2014</div>
+        </div>
+        <div class="role-body">
+          <ul class="role-list">
+            <li>Developed <strong>Section 508-compliant healthcare applications</strong> ensuring accessibility</li>
+            <li>Recognized multiple times with <strong>Best Team Player Awards</strong> for collaboration and mentorship</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -662,189 +876,182 @@ footer {
 <!-- ── COMPETENCIES ── -->
 <section id="competencies">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">03 — Core Competencies</span>
-      <h2 class="sec-title">Areas of <em>Expertise</em></h2>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Core <em>Competencies</em></h2>
     </div>
-    <div class="comp-grid fade-in">
+    <div class="comp-grid reveal">
       <div class="comp-card">
-        <div class="comp-label">Leadership</div>
+        <div class="comp-cat">Leadership</div>
         <div class="comp-name">Engineering Leadership & Strategy</div>
         <div class="comp-tags">
-          <span class="comp-tag">Organizational Leadership</span>
-          <span class="comp-tag">Strategic Roadmaps</span>
-          <span class="comp-tag">Stakeholder Engagement</span>
-          <span class="comp-tag">Resource Planning</span>
-          <span class="comp-tag">Performance Coaching</span>
-          <span class="comp-tag">OKR Development</span>
-          <span class="comp-tag">Cross-Functional Leadership</span>
+          <span class="ctag">Org Leadership</span><span class="ctag">Strategic Roadmaps</span>
+          <span class="ctag">Stakeholder Engagement</span><span class="ctag">OKR Development</span>
+          <span class="ctag">Resource Planning</span><span class="ctag">Performance Coaching</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-label">AI & Automation</div>
+        <div class="comp-cat">AI & Automation</div>
         <div class="comp-name">AI Transformation & Automation</div>
         <div class="comp-tags">
-          <span class="comp-tag">Generative AI (LLMs)</span>
-          <span class="comp-tag">Agentic AI Frameworks</span>
-          <span class="comp-tag">Prompt Engineering</span>
-          <span class="comp-tag">RAG Architectures</span>
-          <span class="comp-tag">MCP</span>
-          <span class="comp-tag">AI Engineering Automation</span>
+          <span class="ctag">Generative AI (LLMs)</span><span class="ctag">Agentic AI</span>
+          <span class="ctag">Prompt Engineering</span><span class="ctag">RAG Architectures</span>
+          <span class="ctag">MCP</span><span class="ctag">AI Engineering</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-label">Delivery</div>
+        <div class="comp-cat">Delivery</div>
         <div class="comp-name">Agile Delivery & Product Execution</div>
         <div class="comp-tags">
-          <span class="comp-tag">Agile Program Leadership</span>
-          <span class="comp-tag">Backlog Governance</span>
-          <span class="comp-tag">Sprint Execution</span>
-          <span class="comp-tag">End-to-End Delivery</span>
-          <span class="comp-tag">Cost Optimization</span>
+          <span class="ctag">Agile Leadership</span><span class="ctag">Backlog Governance</span>
+          <span class="ctag">Sprint Execution</span><span class="ctag">Cost Optimization</span>
+          <span class="ctag">End-to-End Delivery</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-label">Resilience</div>
+        <div class="comp-cat">Resilience</div>
         <div class="comp-name">Production Resilience & Operations</div>
         <div class="comp-tags">
-          <span class="comp-tag">SRE Principles</span>
-          <span class="comp-tag">Incident Response</span>
-          <span class="comp-tag">Observability & Monitoring</span>
-          <span class="comp-tag">Disaster Recovery</span>
-          <span class="comp-tag">Performance Optimization</span>
+          <span class="ctag">SRE Principles</span><span class="ctag">Incident Response</span>
+          <span class="ctag">Observability</span><span class="ctag">Disaster Recovery</span>
+          <span class="ctag">Performance Optimization</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-label">Architecture</div>
+        <div class="comp-cat">Architecture</div>
         <div class="comp-name">Architecture & Platform Design</div>
         <div class="comp-tags">
-          <span class="comp-tag">Domain-Driven Design</span>
-          <span class="comp-tag">Microservices</span>
-          <span class="comp-tag">REST/SOAP APIs</span>
-          <span class="comp-tag">SPA Architecture</span>
-          <span class="comp-tag">SOA</span>
-          <span class="comp-tag">Solution Engineering</span>
+          <span class="ctag">Domain-Driven Design</span><span class="ctag">Microservices</span>
+          <span class="ctag">REST/SOAP APIs</span><span class="ctag">SPA Architecture</span>
+          <span class="ctag">SOA</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-label">Cloud</div>
+        <div class="comp-cat">Cloud</div>
         <div class="comp-name">Cloud & Infrastructure</div>
         <div class="comp-tags">
-          <span class="comp-tag">AWS</span>
-          <span class="comp-tag">Kubernetes</span>
-          <span class="comp-tag">Cloud Migration</span>
-          <span class="comp-tag">Infrastructure as Code</span>
+          <span class="ctag">AWS</span><span class="ctag">Kubernetes</span>
+          <span class="ctag">Cloud Migration</span><span class="ctag">IaC</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── TECH STACK ── -->
+<!-- ── STACK ── -->
 <section id="stack">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">04 — Technical Stack</span>
-      <h2 class="sec-title">Technology <em>Expertise</em></h2>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Technology <em>Stack</em></h2>
     </div>
-    <div class="stack-grid fade-in">
-      <div class="stack-row">
-        <div class="stack-cat-name">AI Platforms</div>
-        <div class="stack-items">
-          <span class="stag">Generative AI</span><span class="stag">Agentic AI</span>
-          <span class="stag">RAG</span><span class="stag">Prompt Engineering</span>
-          <span class="stag">AWS Bedrock</span>
+    <table class="stack-table reveal">
+      <tr>
+        <td class="stack-cat">AI Platforms</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Generative AI</span><span class="stag">Agentic AI</span><span class="stag">RAG</span><span class="stag">Prompt Engineering</span><span class="stag">AWS Bedrock</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Languages</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Java 8/11/17</span><span class="stag">Python</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Frameworks</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Spring Framework 6</span><span class="stag">Spring Boot</span><span class="stag">Hibernate</span><span class="stag">Reactive Programming</span><span class="stag">GraphQL</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Web</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Angular</span><span class="stag">AngularJS</span><span class="stag">ReactJS</span><span class="stag">Node.js</span><span class="stag">JavaScript</span><span class="stag">HTML5/CSS3</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Data & Messaging</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">MongoDB</span><span class="stag">Oracle</span><span class="stag">SQL Server</span><span class="stag">DB2</span><span class="stag">Kafka</span><span class="stag">IBM MQ</span><span class="stag">Apache MQ</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Monitoring</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Splunk</span><span class="stag">CloudWatch</span><span class="stag">Grafana</span><span class="stag">Arize</span><span class="stag">Pulse Alerts</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">DevOps</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">Jenkins</span><span class="stag">GitHub Actions</span></div></td>
+      </tr>
+      <tr>
+        <td class="stack-cat">Platforms</td>
+        <td class="stack-items-cell"><div class="stags"><span class="stag">AEM 6.5</span><span class="stag">AEM Cloud Service</span><span class="stag">Gradial</span></div></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ── BLOG ── -->
+<section id="blog">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">Insights &amp; <em>Writing</em></h2>
+    </div>
+    <div class="blog-grid reveal">
+      <a href="https://vasugi.github.io/blog-qa-automation.html" class="blog-card">
+        <div class="blog-tag">AI Engineering · 4 min read</div>
+        <div class="blog-title">How We Cut Manual QA Work by 30% Using Claude AI</div>
+        <div class="blog-excerpt">A real story of AI-assisted test automation at enterprise scale — what worked, what surprised me, and what I'd do differently.</div>
+        <div class="blog-meta">
+          <span>2025</span>
+          <span class="blog-arrow">→</span>
         </div>
+      </a>
+      <div class="blog-card blog-coming">
+        <div class="blog-tag">Coming Soon</div>
+        <div class="blog-title">GraphQL + SuperGraph: How We Cut API Latency by 60%</div>
+        <div class="blog-excerpt">The architecture decisions behind a 60% performance improvement on enterprise-scale APIs.</div>
+        <div class="blog-meta"><span>2025</span></div>
       </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Languages</div>
-        <div class="stack-items">
-          <span class="stag">Java 8/11/17</span><span class="stag">Python</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Frameworks</div>
-        <div class="stack-items">
-          <span class="stag">Spring Framework 6</span><span class="stag">Spring Boot</span>
-          <span class="stag">Hibernate</span><span class="stag">Reactive Programming</span>
-          <span class="stag">GraphQL</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Web</div>
-        <div class="stack-items">
-          <span class="stag">Angular</span><span class="stag">AngularJS</span>
-          <span class="stag">ReactJS</span><span class="stag">Node.js</span>
-          <span class="stag">JavaScript</span><span class="stag">HTML5/CSS3</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Data & Messaging</div>
-        <div class="stack-items">
-          <span class="stag">MongoDB</span><span class="stag">Oracle</span>
-          <span class="stag">SQL Server</span><span class="stag">DB2</span>
-          <span class="stag">Kafka</span><span class="stag">IBM MQ</span>
-          <span class="stag">Apache MQ</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Monitoring</div>
-        <div class="stack-items">
-          <span class="stag">Splunk</span><span class="stag">CloudWatch</span>
-          <span class="stag">Grafana</span><span class="stag">Arize</span>
-          <span class="stag">Pulse Alerts</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">DevOps</div>
-        <div class="stack-items">
-          <span class="stag">Jenkins</span><span class="stag">GitHub Actions</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-name">Platforms</div>
-        <div class="stack-items">
-          <span class="stag">AEM 6.5</span><span class="stag">AEM Cloud Service</span>
-          <span class="stag">Gradial</span>
-        </div>
+      <div class="blog-card blog-coming">
+        <div class="blog-tag">Coming Soon</div>
+        <div class="blog-title">From 30+ Engineers to One Culture: Building High-Performing Teams</div>
+        <div class="blog-excerpt">What I've learned about engineering leadership, inclusion, and building teams that actually love what they do.</div>
+        <div class="blog-meta"><span>2025</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── EDUCATION & CERTS ── -->
+<!-- ── CREDENTIALS ── -->
 <section id="credentials">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">05 — Education & Certifications</span>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">06</span>
       <h2 class="sec-title">Academic <em>Credentials</em></h2>
     </div>
-    <div class="cred-grid fade-in">
-      <div class="edu-block">
-        <div class="block-label">Education</div>
-        <div class="edu-item">
-          <div class="edu-degree">MBA</div>
-          <div class="edu-school">University of Massachusetts Lowell</div>
+    <div class="cred-grid reveal">
+      <div class="cred-panel">
+        <span class="panel-label">Education</span>
+        <div class="edu-entry">
+          <div class="edu-deg">MBA</div>
+          <div class="edu-inst">University of Massachusetts Lowell</div>
           <div class="edu-status">In Progress</div>
         </div>
-        <div class="edu-item">
-          <div class="edu-degree">BSc — Computer Science</div>
-          <div class="edu-school">Anna University, Chennai, India</div>
+        <div class="edu-entry">
+          <div class="edu-deg">BSc — Computer Science</div>
+          <div class="edu-inst">Anna University, Chennai, India</div>
         </div>
       </div>
-      <div class="cert-block">
-        <div class="block-label">Certifications</div>
-        <div class="cert-list">
-          <div class="cert-item"><div class="cert-bullet"></div>AWS Certified Solutions Architect</div>
-          <div class="cert-item"><div class="cert-bullet"></div>AWS Certified Cloud Practitioner</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Adobe Qualified AEM Sites Content Author</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Adobe Qualified AEM Assets Digital Librarian</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Sun Certified Java Programmer</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Sun Certified Web Component Developer</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Oracle Certified PL/SQL Developer Associate</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Lean Six Sigma White Belt</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Project Management Essentials (MSI)</div>
-          <div class="cert-item"><div class="cert-bullet"></div>Dale Carnegie Leadership Program</div>
+      <div class="cred-panel">
+        <span class="panel-label">Certifications</span>
+        <div class="cert-items">
+          <div class="cert-row"><div class="cert-dot"></div>AWS Certified Solutions Architect</div>
+          <div class="cert-row"><div class="cert-dot"></div>AWS Certified Cloud Practitioner</div>
+          <div class="cert-row"><div class="cert-dot"></div>Adobe Qualified AEM Sites Content Author</div>
+          <div class="cert-row"><div class="cert-dot"></div>Adobe Qualified AEM Assets Digital Librarian</div>
+          <div class="cert-row"><div class="cert-dot"></div>Sun Certified Java Programmer</div>
+          <div class="cert-row"><div class="cert-dot"></div>Sun Certified Web Component Developer</div>
+          <div class="cert-row"><div class="cert-dot"></div>Oracle Certified PL/SQL Developer Associate</div>
+          <div class="cert-row"><div class="cert-dot"></div>Lean Six Sigma White Belt</div>
+          <div class="cert-row"><div class="cert-dot"></div>Project Management Essentials (MSI)</div>
+          <div class="cert-row"><div class="cert-dot"></div>Dale Carnegie Leadership Program</div>
         </div>
       </div>
     </div>
@@ -854,34 +1061,35 @@ footer {
 <!-- ── AWARDS ── -->
 <section id="awards">
   <div class="container">
-    <div class="sec-header fade-in">
-      <span class="sec-num">06 — Recognition</span>
-      <h2 class="sec-title">Awards &amp; <em>Honors</em></h2>
+    <div class="sec-head reveal">
+      <div class="sec-line"></div>
+      <span class="sec-num">07</span>
+      <h2 class="sec-title">Awards &amp; <em>Recognition</em></h2>
     </div>
-    <div class="awards-strip fade-in">
-      <div class="award-cell">
-        <div class="award-icon">🏆</div>
-        <div class="award-title">Women Empowerment Award</div>
+    <div class="awards-grid reveal">
+      <div class="award-tile">
+        <span class="award-glyph">🏆</span>
+        <div class="award-name">Women Empowerment Award</div>
         <div class="award-org">John Deere Financial</div>
       </div>
-      <div class="award-cell">
-        <div class="award-icon">💡</div>
-        <div class="award-title">Innovation Contributor</div>
+      <div class="award-tile">
+        <span class="award-glyph">💡</span>
+        <div class="award-name">Innovation Contributor</div>
         <div class="award-org">Vanguard</div>
       </div>
-      <div class="award-cell">
-        <div class="award-icon">⭐</div>
-        <div class="award-title">Best Team Player Award</div>
+      <div class="award-tile">
+        <span class="award-glyph">⭐</span>
+        <div class="award-name">Best Team Player</div>
         <div class="award-org">Telligen</div>
       </div>
-      <div class="award-cell">
-        <div class="award-icon">🚀</div>
-        <div class="award-title">LEAP Nominator</div>
+      <div class="award-tile">
+        <span class="award-glyph">🚀</span>
+        <div class="award-name">LEAP Nominator</div>
         <div class="award-org">Vanguard</div>
       </div>
-      <div class="award-cell">
-        <div class="award-icon">🎓</div>
-        <div class="award-title">IT WILS Aspire Program</div>
+      <div class="award-tile">
+        <span class="award-glyph">🎓</span>
+        <div class="award-name">IT WILS Aspire Program</div>
         <div class="award-org">Vanguard</div>
       </div>
     </div>
@@ -890,23 +1098,74 @@ footer {
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-name">Vasugi Andavar</div>
-  <div class="footer-sub">Engineering Manager · AI & Cloud Transformation Leader · Solutions Architect</div>
-  <div class="footer-contact">
+  <div class="footer-brand">
+    <div class="footer-name">Vasugi Andavar</div>
+    <div class="footer-role">Engineering Manager · AI & Cloud Transformation · Solutions Architect</div>
+  </div>
+  <div class="footer-links">
     <a href="mailto:vasugiandavar@gmail.com">vasugiandavar@gmail.com</a>
-    <span style="color:rgba(255,255,255,0.15)">·</span>
     <a href="tel:4022107524">(402) 210-7524</a>
-    <span style="color:rgba(255,255,255,0.15)">·</span>
-    <span>Charlotte, NC</span>
+    <a href="https://vasugi.github.io/blog-qa-automation.html">Read my blog →</a>
   </div>
 </footer>
 
 <script>
-  const obs = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-    { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
-  );
-  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+/* ── PARTICLE CANVAS ── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init) {
+    this.x = Math.random() * W;
+    this.y = init ? Math.random() * H : H + 10;
+    this.r = Math.random() * 1.2 + 0.3;
+    this.speed = Math.random() * 0.4 + 0.1;
+    this.opacity = Math.random() * 0.4 + 0.05;
+    this.drift = (Math.random() - 0.5) * 0.3;
+  }
+  update() {
+    this.y -= this.speed;
+    this.x += this.drift;
+    if (this.y < -10) this.reset(false);
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(192,57,14,${this.opacity * 0.5})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ── SCROLL REVEAL ── */
+const revealObs = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.07, rootMargin: '0px 0px -30px 0px' }
+);
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.background =
+    window.scrollY > 50 ? 'rgba(245,242,237,0.98)' : 'rgba(245,242,237,0.92)';
+});
 </script>
 </body>
 </html>
